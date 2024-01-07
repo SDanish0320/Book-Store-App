@@ -47,44 +47,75 @@ class _AllBooksState extends State<AllBooks> {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: List.generate(
-                        categories.length,
-                        (index) {
-                          var category = categories[index];
-                          var categoryId = category.id; // Access document ID
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedCategory =
-                                    categoryId ?? ''; // Null check
-                                // print('Selected category: $selectedCategory');
-                                // print('Document ID: $categoryId');
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: selectedCategory == category['category']
-                                    ? Color(0xFFffd482)
-                                    : Color(0xFF24375E),
-                              ),
-                              child: Text(
-                                category['category'],
-                                style: TextStyle(
-                                  color:
-                                      selectedCategory == category['category']
-                                          ? Color(0xFF24375E)
-                                          : Color(0xFFffd482),
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      children: [
+                        // "All" option
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedCategory =
+                                  null; // Set selectedCategory to null for "All"
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: selectedCategory == null
+                                  ? Color(0xFFffd482)
+                                  : Color(0xFF24375E),
+                            ),
+                            child: Text(
+                              "All",
+                              style: TextStyle(
+                                color: selectedCategory == null
+                                    ? Color(0xFF24375E)
+                                    : Color(0xFFffd482),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+
+                        // Existing categories
+                        ...List.generate(
+                          categories.length,
+                          (index) {
+                            var category = categories[index];
+                            var categoryId = category.id; // Access document ID
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedCategory =
+                                      categoryId ?? ''; // Null check
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: selectedCategory == categoryId
+                                      ? Color(0xFFffd482)
+                                      : Color(0xFF24375E),
+                                ),
+                                child: Text(
+                                  category['category'],
+                                  style: TextStyle(
+                                    color: selectedCategory == categoryId
+                                        ? Color(0xFF24375E)
+                                        : Color(0xFFffd482),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -108,47 +139,79 @@ class _AllBooksState extends State<AllBooks> {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: List.generate(
-                        authors.length,
-                        (index) {
-                          var author = authors[index];
-                          var authorId = author.id; // Access document ID
-                          return InkWell(
-                            onTap: () async {
-                              try {
-                                setState(() {
-                                  selectedAuthor = authorId ?? ''; // Null check
-
-                                  // print('Selected Author: $selectedAuthor');
-                                  // print('Document ID: $authorId');
-                                });
-                              } catch (e) {
-                                print('Error fetching author name: $e');
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: selectedAuthor == author['Author Name']
-                                    ? Color(0xFFffd482)
-                                    : Color(0xFF24375E),
-                              ),
-                              child: Text(
-                                author['Author Name'],
-                                style: TextStyle(
-                                  color: selectedAuthor == author['Author Name']
-                                      ? Color(0xFF24375E)
-                                      : Color(0xFFffd482),
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      children: [
+                        // "All" option
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedAuthor =
+                                  null; // Set selectedAuthor to null for "All"
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: selectedAuthor == null
+                                  ? Color(0xFFffd482)
+                                  : Color(0xFF24375E),
+                            ),
+                            child: Text(
+                              "All",
+                              style: TextStyle(
+                                color: selectedAuthor == null
+                                    ? Color(0xFF24375E)
+                                    : Color(0xFFffd482),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+
+                        // Existing authors
+                        ...List.generate(
+                          authors.length,
+                          (index) {
+                            var author = authors[index];
+                            var authorId = author.id; // Access document ID
+                            return InkWell(
+                              onTap: () async {
+                                try {
+                                  setState(() {
+                                    selectedAuthor =
+                                        authorId ?? ''; // Null check
+                                  });
+                                } catch (e) {
+                                  print('Error fetching author name: $e');
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: selectedAuthor == authorId
+                                      ? Color(0xFFffd482)
+                                      : Color(0xFF24375E),
+                                ),
+                                child: Text(
+                                  author['Author Name'],
+                                  style: TextStyle(
+                                    color: selectedAuthor == authorId
+                                        ? Color(0xFF24375E)
+                                        : Color(0xFFffd482),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -172,7 +235,6 @@ class _AllBooksState extends State<AllBooks> {
                           return Center(child: Text('Error loading products'));
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
-                          print('No products available');
                           return Center(child: Text('No products available'));
                         } else {
                           var products = snapshot.data!;

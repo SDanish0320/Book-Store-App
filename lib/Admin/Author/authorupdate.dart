@@ -164,7 +164,7 @@ void _showCustomAlertDialog(
       // Show a success alert
       _showSuccessDialog(
       context,
-      'Category updated successfully!',
+      'Author updated successfully!',
     );
 
     // Delay the navigation to CategoryShow page for 2 seconds (adjust as needed)
@@ -175,12 +175,12 @@ void _showCustomAlertDialog(
       );
     });
   } catch (e) {
-    print('Error updating category: $e');
+    print('Error updating author: $e');
 
     _showCustomAlertDialog(
       context,
       'Error',
-      'An error occurred while updating the category. Please try again.',
+      'An error occurred while updating the author. Please try again.',
       () {
         // Handle the confirm action if needed
       },

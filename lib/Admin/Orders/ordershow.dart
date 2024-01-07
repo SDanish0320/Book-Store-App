@@ -1,3 +1,4 @@
+import 'package:bookstore/Admin/drawer.dart';
 import 'package:bookstore/Common/Custom%20Loader/customloader.dart';
 import 'package:bookstore/User%20End/OrderAll/ordermodel.dart' as CustomOrder;
 import 'package:bookstore/Admin/Orders/orderupdate.dart';
@@ -14,14 +15,8 @@ void main() {
 class OrderShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF24375E),
-        iconTheme: IconThemeData(
-          color: Color(0xFFffd482), // Set the color for the back arrow
-        ),
-      ),
-      body: MyListView(),
+    return CommonScaffold(
+      mybody: MyListView(),
     );
   }
 }

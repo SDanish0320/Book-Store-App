@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:bookstore/Admin/Author/authorshow.dart';
 import 'package:bookstore/Admin/Category/categoryshow.dart';
 import 'package:bookstore/Admin/Orders/ordershow.dart';
 import 'package:bookstore/Admin/Product/productshow.dart';
-import 'package:bookstore/Common/Logout/logout.dart';
 import 'package:bookstore/Admin/Users/usershow.dart';
+import 'package:bookstore/Common/Logout/logout.dart';
+import 'package:flutter/material.dart';
 
 class CommonScaffold extends StatelessWidget {
   final Widget? mybody;
   final dynamic myColor;
   final FloatingActionButton? floatingActionButton;
 
-  CommonScaffold({
-    required this.mybody,
-    this.myColor = Colors.transparent,
-    this.floatingActionButton,
-  });
+  CommonScaffold(
+      {required this.mybody,
+      this.myColor = Colors.transparent,
+      this.floatingActionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -25,67 +24,95 @@ class CommonScaffold extends StatelessWidget {
         foregroundColor: Color(0xFFffd482),
         backgroundColor: Color(0xFF24375E),
         shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(360),
-            bottomRight: Radius.circular(360),
-          ),
-        ),
+            borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(360),
+          bottomRight: Radius.circular(360),
+        )),
       ),
+      //  AppBar(
+      //     title: Text("Verse Vouyage"),
+      //     centerTitle: true),
       drawer: Drawer(
         child: Container(
           color: Color(0xFFffd482),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                YourHeaderWidget(),
-                Center(
-                  child: DrawerSection(
-                    title: 'Main',
-                    items: [
-                      CompactDrawerItem(
-                          icon: Icons.person,
-                          label: 'Authors',
-                          onTap: () => navigateTo(context, AuthorShow())),
-                      CompactDrawerItem(
-                          icon: Icons.category,
-                          label: 'Categories',
-                          onTap: () => navigateTo(context, CategoryShow())),
-                      CompactDrawerItem(
-                          icon: Icons.shopping_cart,
-                          label: 'Products',
-                          onTap: () => navigateTo(context, ProductShow())),
-                    ],
-                  ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 120.0,
+                      height: 120.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage('verseVoyage.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Verse Vouyage',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF24375E),
+                      ),
+                    ),
+                    Text(
+                      'E-Book Store',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Color(0xFF24375E),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Ahutorr(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Categoryy(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Productss(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Userr(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Orderr(),
+                          ],
+                        ),
+                        
+                        Row(
+                          children: [
+                            Logout(),
+                          ],
+                        ),
+                      ],
+                    ))
+                  ],
                 ),
-                Center(
-                  child: DrawerSection(
-                    title: 'Additional',
-                    items: [
-                      
-                      CompactDrawerItem(
-                          icon: Icons.account_circle,
-                          label: 'Users',
-                          onTap: () => navigateTo(context, UserShow())),
-                      CompactDrawerItem(
-                          icon: Icons.shopping_cart,
-                          label: 'Order',
-                          onTap: () => navigateTo(context, OrderShow())),
-                    ],
-                  ),
-                ),
-                Center(
-                  child: DrawerSection(
-                    title: 'Account',
-                    items: [
-                      CompactDrawerItem(
-                          icon: Icons.logout,
-                          label: 'Logout',
-                          onTap: () => navigateTo(context, LogoutPage())),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -93,116 +120,6 @@ class CommonScaffold extends StatelessWidget {
       floatingActionButton: floatingActionButton,
     );
   }
-}
-
-class CompactDrawerItem extends StatefulWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  CompactDrawerItem(
-      {required this.icon, required this.label, required this.onTap});
-
-  @override
-  State<CompactDrawerItem> createState() => _CompactDrawerItemState();
-}
-
-class _CompactDrawerItemState extends State<CompactDrawerItem> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onTap,
-      child: Container(
-        height: 50,
-        color: Colors.transparent,
-        child: Row(
-          children: [
-            Icon(
-              widget.icon,
-              color: Color(0xFF24375E),
-            ),
-            SizedBox(width: 5),
-            Text(
-              widget.label,
-              style: TextStyle(color: Color(0xFF24375E), fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DrawerSection extends StatelessWidget {
-  final String title;
-  final List<Widget> items;
-
-  DrawerSection({required this.title, required this.items});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Divider(),
-        Column(
-          children: items,
-        ),
-      ],
-    );
-  }
-}
-
-// Helper functions/widgets
-Widget YourHeaderWidget() {
-  return Column(
-    children: [
-      Container(
-        width: 120.0,
-        height: 120.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: AssetImage('verseVoyage.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      SizedBox(height: 5),
-      Text(
-        'Verse Vouyage',
-        style: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.w800,
-          color: Color(0xFF24375E),
-        ),
-      ),
-      Text(
-        'E-Book Store',
-        style: TextStyle(
-          fontSize: 14.0,
-          color: Color(0xFF24375E),
-        ),
-      ),
-      SizedBox(
-        height: 5,
-      ),
-    ],
-  );
-}
-
-void navigateTo(BuildContext context, Widget page) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => page),
-  );
 }
 
 class Ahutorr extends StatefulWidget {
@@ -225,6 +142,7 @@ class _AhutorrState extends State<Ahutorr> {
           height: 50,
           color: Colors.transparent,
           child: Row(
+
             children: [
               Container(
                 child: Icon(
@@ -324,6 +242,7 @@ class _ProductssState extends State<Productss> {
 }
 
 
+
 class Userr extends StatefulWidget {
   @override
   State<Userr> createState() => _UserrState();
@@ -344,6 +263,7 @@ class _UserrState extends State<Userr> {
           height: 50,
           color: Colors.transparent,
           child: Row(
+
             children: [
               Icon(
                 Icons.account_circle,
@@ -382,6 +302,7 @@ class _OrderrState extends State<Orderr> {
           height: 50,
           color: Colors.transparent,
           child: Row(
+
             children: [
               Icon(
                 Icons.shopping_cart,
@@ -399,6 +320,8 @@ class _OrderrState extends State<Orderr> {
     );
   }
 }
+
+
 
 class Logout extends StatefulWidget {
   @override
@@ -420,6 +343,7 @@ class _LogoutState extends State<Logout> {
           height: 50,
           color: Colors.transparent,
           child: Row(
+
             children: [
               Icon(
                 Icons.logout,
