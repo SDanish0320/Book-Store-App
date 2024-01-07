@@ -74,18 +74,18 @@ class _OnBoardState extends State<OnBoard> {
                   padding: const EdgeInsets.all(40),
                   child: Column(
                     children: [
-                      Image.asset(contents[i].image, height: 300),
+                      Image.asset(contents[i].image, height: 200),
                       SizedBox(height: 10),
                       Text(contents[i].title,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold
                       ),),
                       SizedBox(height: 10),
                       Text(contents[i].description,textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
+                        color: Color(0xFF24375E),
+                        fontSize: 12,
                         fontWeight: FontWeight.w500
                       ),),
                     ],

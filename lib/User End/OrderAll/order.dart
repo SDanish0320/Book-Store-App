@@ -21,6 +21,7 @@ class OrdersPage extends StatelessWidget {
           ),
           backgroundColor: Color(0xFF24375E),
           bottom: TabBar(
+            isScrollable: true,
             labelColor: Colors.white,
             unselectedLabelColor: Color(0xFFffd482),
             indicatorColor: Color(0xFFffd482),

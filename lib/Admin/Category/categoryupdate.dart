@@ -1,36 +1,57 @@
-import 'package:bookstore/Admin/drawer.dart';
+import 'package:bookstore/Admin/Category/categoryshow.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CategoryUpdate extends StatefulWidget {
-  String myid;
-  CategoryUpdate(this.myid);
+  final String categoryId;
+
+  CategoryUpdate(this.categoryId);
 
   @override
-  State<CategoryUpdate> createState() => _MyWidgetState();
+  State<CategoryUpdate> createState() => _CategoryUpdateState();
 }
 
-class _MyWidgetState extends State<CategoryUpdate> {
-  final TextEditingController _catnameController = TextEditingController();
+class _CategoryUpdateState extends State<CategoryUpdate> {
+  TextEditingController _catnameController = TextEditingController();
 
+  @override
   void initState() {
     super.initState();
-    // Fetch user data when the widget is initialized
     fetchData();
   }
 
   Future<void> fetchData() async {
     try {
-      DocumentSnapshot data = await FirebaseFirestore.instance
+      DocumentSnapshot categorySnapshot = await FirebaseFirestore.instance
           .collection('category')
-          .doc(widget.myid)
+          .doc(widget.categoryId)
           .get();
-      if (data.exists) {
-        _catnameController.text = data.get("category");
+
+      if (categorySnapshot.exists) {
+        setState(() {
+          _catnameController.text = categorySnapshot.get("category");
+        });
       }
     } catch (e) {
-      print("Error fetching data: $e");
+      print("Error fetching category data: $e");
     }
+  }
+
+  void _showSuccessDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Theme(
+          data: ThemeData(
+            backgroundColor: Color(0xFF2ECC71), // Green color
+          ),
+          child: AlertDialog(
+            title: Text('Success'),
+            content: Text(message),
+          ),
+        );
+      },
+    );
   }
 
   void _showCustomAlertDialog(
@@ -54,7 +75,20 @@ class _MyWidgetState extends State<CategoryUpdate> {
                   primary: Color(0xFF24375E),
                   backgroundColor: Color(0xFF24375E),
                 ),
-                child: Text('OK',
+                child: Text('Cancel',
+                    style: TextStyle(
+                        color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+              ),
+              TextButton(
+                onPressed: () {
+                  onConfirm(); // Call the provided callback function
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                style: TextButton.styleFrom(
+                  primary: Color(0xFF24375E),
+                  backgroundColor: Color(0xFF24375E),
+                ),
+                child: Text('Confirm',
                     style: TextStyle(
                         color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
               ),
@@ -65,10 +99,52 @@ class _MyWidgetState extends State<CategoryUpdate> {
     );
   }
 
+  Future<void> updateCategory(BuildContext context) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('category')
+          .doc(widget.categoryId)
+          .update({
+        'category': _catnameController.text,
+      });
+
+      // Show a success dialog with green color
+      _showSuccessDialog(
+        context,
+        'Category updated successfully!',
+      );
+
+      // Delay the navigation to CategoryShow page for 2 seconds (adjust as needed)
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CategoryShow()),
+        );
+      });
+    } catch (e) {
+      print('Error updating category: $e');
+
+      _showCustomAlertDialog(
+        context,
+        'Error',
+        'An error occurred while updating the category. Please try again.',
+        () {
+          // Handle the confirm action if needed
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(
@@ -94,14 +170,17 @@ class _MyWidgetState extends State<CategoryUpdate> {
                 child: Expanded(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 10,
+                      ),
                       TextField(
+                        controller: _catnameController,
                         decoration: InputDecoration(
                           hintText: 'Category Name',
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFFffd482)),
                           ),
                         ),
-                        controller: _catnameController,
                       ),
                     ],
                   ),
@@ -115,12 +194,14 @@ class _MyWidgetState extends State<CategoryUpdate> {
               width: 450,
               child: ElevatedButton(
                 onPressed: () {
+                  // Show a confirmation alert before updating
                   _showCustomAlertDialog(
                     context,
-                    'Confirm Update',
+                    'Confirmation',
                     'Are you sure you want to update this category?',
                     () {
-                      Update(widget.myid);
+                      updateCategory(
+                          context); // Call the updateCategory method if confirmed
                     },
                   );
                 },
@@ -145,30 +226,5 @@ class _MyWidgetState extends State<CategoryUpdate> {
         ),
       ),
     );
-  }
-
-  Future<void> Update(String documentId) async {
-    try {
-      FirebaseFirestore db = FirebaseFirestore.instance;
-      CollectionReference tab = db.collection('category');
-
-      Map<String, dynamic> updatedData = {
-        'category': _catnameController.text,
-      };
-
-      await tab.doc(documentId).update(updatedData);
-
-      _catnameController.text = "";
-    } catch (e) {
-      print('Error updating category: $e');
-      _showCustomAlertDialog(
-        context,
-        'Error',
-        'Error updating category. Please try again.',
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
   }
 }

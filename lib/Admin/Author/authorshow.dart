@@ -1,6 +1,5 @@
 import 'package:bookstore/Admin/Author/authoradd.dart';
 import 'package:bookstore/Admin/Author/authorupdate.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +11,14 @@ void main() {
 class AuthorShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: MyListView(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: MyListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -35,6 +40,40 @@ class MyListView extends StatefulWidget {
 
 class _MyListViewState extends State<MyListView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  void _showDetailsDialog(String details) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFF24375E),
+            title: Text(
+              'Details',
+              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Set text color
+            ),
+            content: Text(
+              details,
+              style: TextStyle(color: Color(0xFFffd482)), // Set text color
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                style: TextButton.styleFrom(
+                  primary: Color(0xFFffd482), // Set text color
+                ),
+                child: Text(
+                  'Close',
+                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          
+        );
+      },
+    );
+  }
 
   void _showDeleteConfirmationDialog(String authorId) {
     showDialog(
@@ -113,9 +152,17 @@ class _MyListViewState extends State<MyListView> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Details: ${authors['Details']}',style: TextStyle(color: Color(0xFF24375E)),),
-                    Text('Origin: ${authors['Origin']}',style: TextStyle(color: Color(0xFF24375E)),),
-                    Text('Language: ${authors['Language']}',style: TextStyle(color: Color(0xFF24375E))),
+                    GestureDetector(
+                      onTap: () {
+                        _showDetailsDialog(authors['Details']);
+                      },
+                      child: Text(
+                        'Details: ${authors['Details'].length > 50 ? '${authors['Details'].substring(0, 50)}...' : authors['Details']}',
+                        style: TextStyle(color: Color(0xFF24375E)),
+                      ),
+                    ),
+                    Text('Origin: ${authors['Origin']}', style: TextStyle(color: Color(0xFF24375E))),
+                    Text('Language: ${authors['Language']}', style: TextStyle(color: Color(0xFF24375E))),
                   ],
                 ),
                 leading: CircleAvatar(

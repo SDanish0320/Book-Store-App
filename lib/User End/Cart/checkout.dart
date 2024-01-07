@@ -140,7 +140,7 @@ class CheckoutPage extends StatelessWidget {
             ),
             SizedBox(height: 12),
             Text(
-              '\$${cartProvider.calculateTotalPrice().toStringAsFixed(2)}',
+              '\Rs ${cartProvider.calculateTotalPrice().toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

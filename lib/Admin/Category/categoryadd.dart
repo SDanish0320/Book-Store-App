@@ -1,5 +1,4 @@
 import 'package:bookstore/Admin/Category/categoryshow.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,11 @@ class CategoryAdd extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); 
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CategoryShow()),
+                      );
                 },
                 style: TextButton.styleFrom(
                   primary: Color(0xFF24375E),
@@ -83,8 +86,14 @@ class CategoryAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(

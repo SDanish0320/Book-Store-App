@@ -1,7 +1,6 @@
 import 'package:bookstore/Common/Login/login.dart';
 import 'package:bookstore/Common/Sign%20Up/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -53,6 +52,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
+             const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -60,28 +60,23 @@ class _WelcomePageState extends State<WelcomePage> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      // Add your combined Google and Facebook login functionality here
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF24375E), // Set the button color
+                      fixedSize: Size(300, 65), // Set the width and height
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Login(),
-                              ),
-                            );
-                          },
-                          child: Text('Login',
-                              style: TextStyle(
-                                  fontSize: 16, color: Color(0xFFffd482))),
-                        ),
-                      ],
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: Color(0xFFffd482),
+                      ),
                     ),
                   ),
                 ],
@@ -91,14 +86,14 @@ class _WelcomePageState extends State<WelcomePage> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Don\'t have an account? ',
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             color: Color(0xFF24375E),
                             fontFamily: 'Roboto'),
                       ),
@@ -126,67 +121,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF24375E), // Set the background color
-                      borderRadius:
-                          BorderRadius.circular(12.0), // Set the border radius
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Login with  ",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFFffd482),
-                              fontFamily: 'Roboto'),
-                        ),
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Add your Google login functionality here
-                            },
-                            child: FaIcon(
-                              FontAwesomeIcons.google,
-                              color:
-                                  Color(0xFFffd482), // Set your desired color
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          " OR ",
-                          style:
-                              TextStyle(fontSize: 16, color: Color(0xFFffd482)),
-                        ),
-                        SizedBox(width: 8),
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Add your Facebook login functionality here
-                            },
-                            child: FaIcon(
-                              FontAwesomeIcons.facebook,
-                              color:
-                                  Color(0xFFffd482), // Set your desired color
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
           ],
         ),
       ),

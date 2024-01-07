@@ -220,6 +220,7 @@ class _BookDetailsState extends State<BookDetails> {
       context: context,
       builder: (context) {
         return Container(
+          color: Color(0xFF24375E),
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -615,6 +616,7 @@ class _BookDetailsState extends State<BookDetails> {
                                           "ADD TO CART",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            fontSize: 12,
                                             letterSpacing: 1.5,
                                             color: Color(0xFFffd482),
                                           ),
@@ -662,6 +664,7 @@ class _BookDetailsState extends State<BookDetails> {
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             letterSpacing: 1.5,
+                                            fontSize: 12,
                                             color: Color(0xFFffd482),
                                           ),
                                         ),

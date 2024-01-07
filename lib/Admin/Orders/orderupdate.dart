@@ -1,5 +1,4 @@
 import 'package:bookstore/Admin/Orders/ordershow.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -170,8 +169,14 @@ class _OrderUpdateState extends State<OrderUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(

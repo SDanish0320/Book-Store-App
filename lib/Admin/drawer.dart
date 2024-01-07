@@ -3,7 +3,7 @@ import 'package:bookstore/Admin/Author/authorshow.dart';
 import 'package:bookstore/Admin/Category/categoryshow.dart';
 import 'package:bookstore/Admin/Orders/ordershow.dart';
 import 'package:bookstore/Admin/Product/productshow.dart';
-import 'package:bookstore/logout.dart';
+import 'package:bookstore/Common/Logout/logout.dart';
 import 'package:bookstore/Admin/Users/usershow.dart';
 
 class CommonScaffold extends StatelessWidget {
@@ -34,50 +34,58 @@ class CommonScaffold extends StatelessWidget {
       drawer: Drawer(
         child: Container(
           color: Color(0xFFffd482),
-          child: Column(
-            children: <Widget>[
-              YourHeaderWidget(),
-              DrawerSection(
-                title: 'Main',
-                items: [
-                  CompactDrawerItem(
-                      icon: Icons.person,
-                      label: 'Authors',
-                      onTap: () => navigateTo(context, AuthorShow())),
-                  CompactDrawerItem(
-                      icon: Icons.category,
-                      label: 'Categories',
-                      onTap: () => navigateTo(context, CategoryShow())),
-                  CompactDrawerItem(
-                      icon: Icons.shopping_cart,
-                      label: 'Products',
-                      onTap: () => navigateTo(context, ProductShow())),
-                ],
-              ),
-              DrawerSection(
-                title: 'Additional',
-                items: [
-                  
-                  CompactDrawerItem(
-                      icon: Icons.account_circle,
-                      label: 'Users',
-                      onTap: () => navigateTo(context, UserShow())),
-                  CompactDrawerItem(
-                      icon: Icons.shopping_cart,
-                      label: 'Order',
-                      onTap: () => navigateTo(context, OrderShow())),
-                ],
-              ),
-              DrawerSection(
-                title: 'Account',
-                items: [
-                  CompactDrawerItem(
-                      icon: Icons.logout,
-                      label: 'Logout',
-                      onTap: () => navigateTo(context, LogoutPage())),
-                ],
-              ),
-            ],
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                YourHeaderWidget(),
+                Center(
+                  child: DrawerSection(
+                    title: 'Main',
+                    items: [
+                      CompactDrawerItem(
+                          icon: Icons.person,
+                          label: 'Authors',
+                          onTap: () => navigateTo(context, AuthorShow())),
+                      CompactDrawerItem(
+                          icon: Icons.category,
+                          label: 'Categories',
+                          onTap: () => navigateTo(context, CategoryShow())),
+                      CompactDrawerItem(
+                          icon: Icons.shopping_cart,
+                          label: 'Products',
+                          onTap: () => navigateTo(context, ProductShow())),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: DrawerSection(
+                    title: 'Additional',
+                    items: [
+                      
+                      CompactDrawerItem(
+                          icon: Icons.account_circle,
+                          label: 'Users',
+                          onTap: () => navigateTo(context, UserShow())),
+                      CompactDrawerItem(
+                          icon: Icons.shopping_cart,
+                          label: 'Order',
+                          onTap: () => navigateTo(context, OrderShow())),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: DrawerSection(
+                    title: 'Account',
+                    items: [
+                      CompactDrawerItem(
+                          icon: Icons.logout,
+                          label: 'Logout',
+                          onTap: () => navigateTo(context, LogoutPage())),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

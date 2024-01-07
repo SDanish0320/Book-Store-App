@@ -1,6 +1,7 @@
 import 'package:bookstore/Common/Login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutPage extends StatefulWidget {
   @override
@@ -97,23 +98,30 @@ class _LogoutPageState extends State<LogoutPage> {
   }
 
   Future<void> _logout(BuildContext context) async {
-    try {
-      await _auth.signOut();
-      // Verify that the user is signed out
-      if (_auth.currentUser == null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ),
-        );
-      } else {
-        // Handle the case where sign out was not successful
-        print('User is still signed in.');
-      }
-    } catch (e) {
-      print('Error during logout: $e');
-      // Handle logout errors here
+  try {
+    // Clear user session using shared_preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userId');
+
+    // Sign out the user
+    await _auth.signOut();
+
+    // Verify that the user is signed out
+    if (_auth.currentUser == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ),
+      );
+    } else {
+      // Handle the case where sign out was not successful
+      print('User is still signed in.');
     }
+  } catch (e) {
+    print('Error during logout: $e');
+    // Handle logout errors here
   }
+}
+
 }

@@ -1,6 +1,5 @@
 import 'package:bookstore/Admin/Product/productadd.dart';
 import 'package:bookstore/Admin/Product/productupdate.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,8 +14,14 @@ void main() {
 class ProductShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: MyListView(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: MyListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -31,9 +36,14 @@ class ProductShow extends StatelessWidget {
   }
 }
 
-class MyListView extends StatelessWidget {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class MyListView extends StatefulWidget {
+  @override
+  _MyListViewState createState() => _MyListViewState();
+}
 
+class _MyListViewState extends State<MyListView> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool isExpanded = false;
   Future<void> deleteProduct(String productId) async {
     try {
       await _firestore.collection('product').doc(productId).delete();
@@ -76,7 +86,8 @@ class MyListView extends StatelessWidget {
                 ),
                 color: Color(0xFFffd482),
                 child: ListTile(
-                  title: Text('Product: ${product.productName}',style: TextStyle(color: Color(0xFF24375E))),
+                  title: Text('Product: ${product.productName}',
+                      style: TextStyle(color: Color(0xFF24375E))),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,7 +100,8 @@ class MyListView extends StatelessWidget {
                           } else if (snapshot.hasError) {
                             return Text('Author: Error loading author name');
                           } else {
-                            return Text('Author: ${snapshot.data}',style: TextStyle(color: Color(0xFF24375E)));
+                            return Text('Author: ${snapshot.data}',
+                                style: TextStyle(color: Color(0xFF24375E)));
                           }
                         },
                       ),
@@ -103,16 +115,61 @@ class MyListView extends StatelessWidget {
                             return Text(
                                 'Category: Error loading category name');
                           } else {
-                            return Text('Category: ${snapshot.data}',style: TextStyle(color: Color(0xFF24375E)));
+                            return Text('Category: ${snapshot.data}',
+                                style: TextStyle(color: Color(0xFF24375E)));
                           }
                         },
                       ),
-                      Text('Price: ${product.price}',style: TextStyle(color: Color(0xFF24375E))),
-                      Text('Description: ${product.description}',style: TextStyle(color: Color(0xFF24375E))),
+                      Text('Price: ${product.price}',
+                          style: TextStyle(color: Color(0xFF24375E))),
+                      isExpanded
+                          ? Text('Description: ${product.description}',
+                              style: TextStyle(color: Color(0xFF24375E)))
+                          : GestureDetector(
+                              onTap: () {
+                                // Show dialog with full description
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: Color(0xFF24375E),
+                                      title: Text(
+                                        'Description',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      content: Text(
+                                        product.description,
+                                        style:
+                                            TextStyle(color: Color(0xFFffd482)),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(
+                                                context); // Close the dialog
+                                          },
+                                          child: Text(
+                                            'Close',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text(
+                                  'Description: ${product.description.length > 50 ? '${product.description.substring(0, 50)}...' : product.description}',
+                                  style: TextStyle(color: Color(0xFF24375E))),
+                            ),
                     ],
                   ),
                   leading: AspectRatio(
-                    aspectRatio: 4/5,
+                    aspectRatio: 4 / 5,
                     child: Container(
                       width: 70, // Adjust the width as needed
                       height: 100, // Adjust the height as needed
@@ -147,21 +204,37 @@ class MyListView extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Delete Product'),
-                                content: Text('Are you sure you want to delete this product?'),
+                                title: Text(
+                                  'Delete Product',
+                                  style: TextStyle(color: Color(0xFF24375E)),
+                                ),
+                                content: Text(
+                                    'Are you sure you want to delete this product?',
+                                    style: TextStyle(color: Color(0xFF24375E))),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.pop(context); // Close the dialog
+                                      Navigator.pop(
+                                          context); // Close the dialog
                                     },
-                                    child: Text('Cancel'),
+                                    child: Text('Cancel',
+                                        style: TextStyle(
+                                            color: Color(0xFF24375E))),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       deleteProduct(product.id);
-                                      Navigator.pop(context); // Close the dialog
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductShow()),
+                                      ); // Close the dialog
                                     },
-                                    child: Text('Delete'),
+                                    child: Text('Delete',
+                                        style: TextStyle(
+                                            color: Color(0xFF24375E))),
                                   ),
                                 ],
                               );

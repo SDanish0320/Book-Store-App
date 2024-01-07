@@ -86,7 +86,7 @@ class WishlistItemWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8),
-                Text('\$${wishlistItem.unitPrice.toStringAsFixed(2)}'),
+                Text('\Rs${wishlistItem.unitPrice.toStringAsFixed(2)}'),
               ],
             ),
           ),

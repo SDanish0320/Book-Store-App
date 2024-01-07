@@ -62,8 +62,9 @@ class Cart extends StatelessWidget {
             height: 60,
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             decoration: BoxDecoration(
-                color: Color(0xFF24375E),
-                borderRadius: BorderRadius.circular(15)),
+              color: Color(0xFF24375E),
+              borderRadius: BorderRadius.circular(15),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -75,12 +76,14 @@ class Cart extends StatelessWidget {
                     children: [
                       Icon(Icons.close, color: Color(0xFFffd482)),
                       SizedBox(width: 10),
-                      Text("Clear List",
-                          style: TextStyle(
-                            color: Color(0xFFffd482),
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ))
+                      Text(
+                        "Clear List",
+                        style: TextStyle(
+                          color: Color(0xFFffd482),
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -91,19 +94,50 @@ class Cart extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            CheckoutPage(cartProvider: cartProvider),
-                      ),
-                    );
+                    if (cartProvider.cartItems.isNotEmpty) {
+                      // Proceed to checkout only if the cart is not empty
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CheckoutPage(cartProvider: cartProvider),
+                        ),
+                      );
+                    } else {
+                      // Show an alert dialog when the cart is empty
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Color(0xFF24375E),
+                            title: Text(
+                              "Empty Cart",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 52, 37),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            content: Text(
+                                "Your cart is empty. Add items to proceed.",
+                                style: TextStyle(color: Colors.white)),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Close the dialog
+                                },
+                                child: Text("OK",
+                                    style: TextStyle(color: Color(0xFFffd482))),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                   child: Row(
                     children: [
                       Icon(Icons.play_arrow, color: Color(0xFFffd482)),
                       SizedBox(width: 10),
-                      Text("Go To CheckOut",
+                      Text("Go To Checkout",
                           style: TextStyle(
                             color: Color(0xFFffd482),
                             fontWeight: FontWeight.bold,

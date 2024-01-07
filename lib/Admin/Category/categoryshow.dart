@@ -1,6 +1,5 @@
 import 'package:bookstore/Admin/Category/categoryadd.dart';
 import 'package:bookstore/Admin/Category/categoryupdate.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +10,14 @@ void main() {
 class CategoryShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: MyListView(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: MyListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -63,15 +68,15 @@ class _MyListViewState extends State<MyListView> {
                     text: 'Category Name: ',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // You can set the color if needed
+                      color:
+                          Color(0xFF24375E) // You can set the color if needed
                     ),
                     children: [
                       TextSpan(
                         text: '${cat['category']}',
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color:
-                              Colors.white, // You can set the color if needed
+                          color: Color(0xFF24375E), // You can set the color if needed
                         ),
                       ),
                     ],
@@ -109,53 +114,51 @@ class _MyListViewState extends State<MyListView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Theme(
-          data: ThemeData(
-            // Set the background color of the alert dialog
-            backgroundColor: Color(0xFFffd482),
+        return AlertDialog(
+          title: Text(
+            'Confirm Deletion',
+            style: TextStyle(color: Color(0xFF24375E)),
           ),
-          child: AlertDialog(
-            title: Text('Confirm Deletion'),
-            content: Text('Are you sure you want to delete this category?'),
-            actions: [
-              TextButton(
-                onPressed: () {
+          content: Text('Are you sure you want to delete this category?',
+              style: TextStyle(color: Color(0xFF24375E))),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              style: TextButton.styleFrom(
+                // Set the foreground color and background color of the "Cancel" button
+                primary: Color(0xFF24375E),
+                backgroundColor: Color(0xFF24375E),
+              ),
+              child: Text('Cancel',
+                  style: TextStyle(
+                      color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await FirebaseFirestore.instance
+                      .collection('category')
+                      .doc(categoryId)
+                      .delete();
                   Navigator.of(context).pop(); // Close the dialog
-                },
-                style: TextButton.styleFrom(
-                  // Set the foreground color and background color of the "Cancel" button
-                  primary: Color(0xFF24375E),
-                  backgroundColor: Color(0xFF24375E),
-                ),
-                child: Text('Cancel',
-                    style: TextStyle(
-                        color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+                  // You can add additional actions after successful deletion
+                } catch (e) {
+                  print('Error deleting category: $e');
+                  // Handle the error (show a dialog, snackbar, etc.)
+                }
+              },
+              style: TextButton.styleFrom(
+                // Set the foreground color and background color of the "OK" button
+                primary: Color(0xFF24375E),
+                backgroundColor: Color(0xFF24375E),
               ),
-              TextButton(
-                onPressed: () async {
-                  try {
-                    await FirebaseFirestore.instance
-                        .collection('category')
-                        .doc(categoryId)
-                        .delete();
-                    Navigator.of(context).pop(); // Close the dialog
-                    // You can add additional actions after successful deletion
-                  } catch (e) {
-                    print('Error deleting category: $e');
-                    // Handle the error (show a dialog, snackbar, etc.)
-                  }
-                },
-                style: TextButton.styleFrom(
-                  // Set the foreground color and background color of the "OK" button
-                  primary: Color(0xFF24375E),
-                  backgroundColor: Color(0xFF24375E),
-                ),
-                child: Text('OK',
-                    style: TextStyle(
-                        color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
-              ),
-            ],
-          ),
+              child: Text('OK',
+                  style: TextStyle(
+                      color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+            ),
+          ],
         );
       },
     );

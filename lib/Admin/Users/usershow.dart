@@ -1,4 +1,3 @@
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,14 @@ void main() {
 class UserShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: MyListView(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: MyListView(),
     );
   }
 }

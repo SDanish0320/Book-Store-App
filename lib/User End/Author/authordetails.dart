@@ -75,7 +75,9 @@ class _AuthorDetailsState extends State<AuthorDetails> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8),
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
                                       child: Row(
                                         children: [
                                           Icon(

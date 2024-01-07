@@ -1,7 +1,6 @@
 import 'package:bookstore/Common/Custom%20Loader/customloader.dart';
 import 'package:bookstore/User%20End/OrderAll/ordermodel.dart' as CustomOrder;
 import 'package:bookstore/Admin/Orders/orderupdate.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,8 +14,14 @@ void main() {
 class OrderShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: MyListView(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: MyListView(),
     );
   }
 }
@@ -218,65 +223,84 @@ class OrderDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Dialog(
-        backgroundColor: Color(0xFFffd482), // Dialog background color
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Order ID: ${order.orderId}',
-                  style: TextStyle(color: Color(0xFF24375E))),
-              SizedBox(height: 5),
-              Text('Shipping Address: ${order.shippingAddress}',
-                  style: TextStyle(color: Color(0xFF24375E))),
-              SizedBox(height: 5),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Order Status: ',
-                      style: TextStyle(color: Color(0xFF24375E)),
-                    ),
-                    TextSpan(
-                      text: order.orderStatus,
-                      style: TextStyle(
-                          color: getOrderStatusColor(order.orderStatus),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5),
-              Text('Order Items:', style: TextStyle(color: Color(0xFF24375E))),
-              SizedBox(height: 5),
-              Column(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Dialog(
+            backgroundColor: Color(0xFFffd482), // Dialog background color
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: order.items.map((item) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('BOOK NAME: ${item.name}',
+                children: [
+                  Text('Order ID: ${order.orderId}',
+                      style: TextStyle(color: Color(0xFF24375E))),
+                  SizedBox(height: 5),
+                  Text('Shipping Address: ${order.shippingAddress}',
+                      style: TextStyle(color: Color(0xFF24375E))),
+                  SizedBox(height: 5),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Order Status: ',
+                          style: TextStyle(color: Color(0xFF24375E)),
+                        ),
+                        TextSpan(
+                          text: order.orderStatus,
                           style: TextStyle(
-                              color: Color(0xFF24375E),
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(height: 5),
-                      Text('Quantity: ${item.quantity}',
-                          style: TextStyle(color: Color(0xFF24375E))),
-                      SizedBox(height: 5),
-                      Text('Price: RS ${item.unitPrice}',
-                          style: TextStyle(color: Color(0xFF24375E))),
-                      SizedBox(height: 5),
-                      Image.network(item.imageUrl),
-                      SizedBox(height: 5), // Displaying the image
-                    ],
-                  );
-                }).toList(),
+                              color: getOrderStatusColor(order.orderStatus),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text('Order Items:',
+                      style: TextStyle(color: Color(0xFF24375E))),
+                  SizedBox(height: 5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: order.items.map((item) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('BOOK NAME: ${item.name}',
+                              style: TextStyle(
+                                  color: Color(0xFF24375E),
+                                  fontWeight: FontWeight.bold)),
+                          SizedBox(height: 5),
+                          Text('Quantity: ${item.quantity}',
+                              style: TextStyle(color: Color(0xFF24375E))),
+                          SizedBox(height: 5),
+                          Text('Price: RS ${item.unitPrice}',
+                              style: TextStyle(color: Color(0xFF24375E))),
+                          SizedBox(height: 5),
+                          Image.network(item.imageUrl),
+                          SizedBox(height: 5), // Displaying the image
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              // Handle the "Go Back" button action
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF24375E),
+              foregroundColor: Color(0xFFffd482),
+              elevation: 5,
+            ),
+            child: Text('Go Back'),
+          ),
+        ],
       ),
     );
   }

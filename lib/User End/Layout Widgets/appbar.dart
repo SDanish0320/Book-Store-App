@@ -2,7 +2,7 @@ import 'package:bookstore/User%20End/OrderAll/order.dart';
 import 'package:bookstore/User%20End/Cart/cart.dart';
 import 'package:bookstore/User%20End/Profile/profile.dart';
 import 'package:bookstore/User%20End/Wishlist/wishlistuser.dart';
-import 'package:bookstore/logout.dart';
+import 'package:bookstore/Common/Logout/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

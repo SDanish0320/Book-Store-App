@@ -17,6 +17,7 @@ class _AllBooksState extends State<AllBooks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Color(0xFFffd482),
         title: Text(
           "All Books",
           style: TextStyle(
@@ -56,8 +57,8 @@ class _AllBooksState extends State<AllBooks> {
                               setState(() {
                                 selectedCategory =
                                     categoryId ?? ''; // Null check
-                                print('Selected category: $selectedCategory');
-                                print('Document ID: $categoryId');
+                                // print('Selected category: $selectedCategory');
+                                // print('Document ID: $categoryId');
                               });
                             },
                             child: Container(
@@ -118,8 +119,8 @@ class _AllBooksState extends State<AllBooks> {
                                 setState(() {
                                   selectedAuthor = authorId ?? ''; // Null check
 
-                                  print('Selected Author: $selectedAuthor');
-                                  print('Document ID: $authorId');
+                                  // print('Selected Author: $selectedAuthor');
+                                  // print('Document ID: $authorId');
                                 });
                               } catch (e) {
                                 print('Error fetching author name: $e');

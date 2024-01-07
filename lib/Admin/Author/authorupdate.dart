@@ -1,4 +1,4 @@
-import 'package:bookstore/Admin/drawer.dart';
+import 'package:bookstore/Admin/Author/authorshow.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -49,51 +49,71 @@ class _AuthorUpdateState extends State<AuthorUpdate> {
       print("Error fetching author data: $e");
     }
   }
+  void _showSuccessDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Theme(
+        data: ThemeData(
+          backgroundColor: Color(0xFF2ECC71), // Green color
+        ),
+        child: AlertDialog(
+          title: Text('Success'),
+          content: Text(message),
+        ),
+      );
+    },
+  );
+}
 
-  void _showCustomAlertDialog(BuildContext context, String title,
-      String content, Function() onConfirm) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Theme(
-          data: ThemeData(
-            backgroundColor: Color(0xFFffd482),
-          ),
-          child: AlertDialog(
-            title: Text(title),
-            content: Text(content),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                style: TextButton.styleFrom(
-                  primary: Color(0xFF24375E),
-                  backgroundColor: Color(0xFF24375E),
-                ),
-                child: Text('Cancel',
-                    style: TextStyle(
-                        color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+void _showCustomAlertDialog(
+    BuildContext context, String title, String content, Function onConfirm) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Theme(
+        data: ThemeData(
+          backgroundColor: Color(0xFFffd482),
+        ),
+        child: AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              style: TextButton.styleFrom(
+                primary: Color(0xFF24375E),
+                backgroundColor: Color(0xFF24375E),
               ),
-              TextButton(
-                onPressed: () {
-                  onConfirm(); // Call the provided callback function
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                style: TextButton.styleFrom(
-                  primary: Color(0xFF24375E),
-                  backgroundColor: Color(0xFF24375E),
-                ),
-                child: Text('Confirm',
-                    style: TextStyle(
-                        color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+              child: Text('Cancel',
+                  style: TextStyle(
+                      color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+            ),
+            TextButton(
+              onPressed: () {
+                onConfirm(); // Call the provided callback function
+                Navigator.of(context).pop();
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AuthorShow()),
+                      );
+              },
+              style: TextButton.styleFrom(
+                primary: Color(0xFF24375E),
+                backgroundColor: Color(0xFF24375E),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+              child: Text('Confirm',
+                  style: TextStyle(
+                      color: Color(0xFFffd482), fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
   Future<void> _selectFile() async {
     try {
@@ -142,33 +162,42 @@ class _AuthorUpdateState extends State<AuthorUpdate> {
       });
 
       // Show a success alert
-      _showCustomAlertDialog(
-        context,
-        'Success',
-        'Author updated successfully!',
-        () {
-          // Handle the confirm action if needed
-        },
-      );
-    } catch (e) {
-      print('Error updating author: $e');
+      _showSuccessDialog(
+      context,
+      'Category updated successfully!',
+    );
 
-      // Show an error alert
-      _showCustomAlertDialog(
+    // Delay the navigation to CategoryShow page for 2 seconds (adjust as needed)
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
         context,
-        'Error',
-        'An error occurred while updating the author. Please try again.',
-        () {
-          // Handle the confirm action if needed
-        },
+        MaterialPageRoute(builder: (context) => AuthorShow()),
       );
+    });
+  } catch (e) {
+    print('Error updating category: $e');
+
+    _showCustomAlertDialog(
+      context,
+      'Error',
+      'An error occurred while updating the category. Please try again.',
+      () {
+        // Handle the confirm action if needed
+      },
+    );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(

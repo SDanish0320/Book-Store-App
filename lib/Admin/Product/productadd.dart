@@ -1,5 +1,4 @@
 import 'package:bookstore/Admin/Product/productshow.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,8 +61,8 @@ class ProductAdd extends StatefulWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Success'),
-                content: Text('Product added successfully!'),
+                title: Text('Success',style: TextStyle(color: const Color.fromARGB(255, 0, 145, 5),fontWeight: FontWeight.bold),),
+                content: Text('Product added successfully!',style: TextStyle(color: Color(0xFF24375E))),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -73,7 +72,7 @@ class ProductAdd extends StatefulWidget {
                         MaterialPageRoute(builder: (context) => ProductShow()),
                       );
                     },
-                    child: Text('OK'),
+                     child: Text('OK',style: TextStyle(color: Color(0xFF24375E)),),
                   ),
                 ],
               );
@@ -84,14 +83,14 @@ class ProductAdd extends StatefulWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Error'),
-                content: Text('Please select an image.'),
+                title: Text('Error',style: TextStyle(color: Color.fromARGB(255, 194, 0, 0),fontWeight: FontWeight.bold)),
+                content: Text('Please select an image.',style: TextStyle(color: Color(0xFF24375E))),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();                      
                     },
-                    child: Text('OK'),
+                     child: Text('OK',style: TextStyle(color: Color(0xFF24375E)),),
                   ),
                 ],
               );
@@ -105,14 +104,14 @@ class ProductAdd extends StatefulWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Error adding product. Please try again.'),
+            title: Text('Error',style: TextStyle(color: Color.fromARGB(255, 194, 0, 0),fontWeight: FontWeight.bold)),
+            content: Text('Error adding product. Please try again.',style: TextStyle(color: Color(0xFF24375E))),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: Text('OK',style: TextStyle(color: Color(0xFF24375E)),),
               ),
             ],
           );
@@ -195,8 +194,14 @@ class _ProductAddState extends State<ProductAdd> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(
@@ -243,32 +248,43 @@ class _ProductAddState extends State<ProductAdd> {
                       SizedBox(
                         height: 10,
                       ),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: DropdownButton<String>(
-                              value: widget.selectedAuthorId,
-                              hint: Text("Select Author"),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  widget.selectedAuthorId = value;
-                                });
-                              },
-                              items: _buildAuthorDropdownItems(),
-                            ),
+                          Text('Select Author'),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButton<String>(
+                                  value: widget.selectedAuthorId,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      widget.selectedAuthorId = value;
+                                    });
+                                  },
+                                  items: _buildAuthorDropdownItems(),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: DropdownButton<String>(
-                              value: widget.selectedCategoryId,
-                              hint: Text("Select Category"),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  widget.selectedCategoryId = value;
-                                });
-                              },
-                              items: _buildCategoryDropdownItems(),
-                            ),
+                          SizedBox(
+                              height:
+                                  10), // Add some spacing between the dropdowns
+                          Text('Select Category'),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButton<String>(
+                                  value: widget.selectedCategoryId,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      widget.selectedCategoryId = value;
+                                    });
+                                  },
+                                  items: _buildCategoryDropdownItems(),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -308,7 +324,7 @@ class _ProductAddState extends State<ProductAdd> {
               height: 15,
             ),
             Container(
-              width: 450,
+              width: 350,
               child: ElevatedButton(
                 onPressed: () {
                   _pickImage();
@@ -334,7 +350,7 @@ class _ProductAddState extends State<ProductAdd> {
               height: 15,
             ),
             Container(
-              width: 450,
+              width: 350,
               child: ElevatedButton(
                 onPressed: () {
                   widget._addProduct(context);

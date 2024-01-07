@@ -1,5 +1,4 @@
 import 'package:bookstore/Admin/Author/authorshow.dart';
-import 'package:bookstore/Admin/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,8 +127,14 @@ class AuthorAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      mybody: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF24375E),
+        iconTheme: IconThemeData(
+          color: Color(0xFFffd482), // Set the color for the back arrow
+        ),
+      ),
+      body: Center(
         child: Column(
           children: [
             SizedBox(
@@ -206,7 +211,6 @@ class AuthorAdd extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      
                     ],
                   ),
                 ),
